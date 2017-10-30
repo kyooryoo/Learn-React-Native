@@ -1,72 +1,103 @@
-import React from 'react';
-import { View, Text, Image, Linking } from 'react-native';
-import Card from './Card';
+import React, { Component } from 'react';
+import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import CardSection from './CardSection';
-import Button from './Button';
 
-const WorkoutDetail = ({ workout }) => {
-  const { title, artist, thumbnail_image, image, url } = workout;
-  const {
-    header,
-    thumbnail,
-    thumbnailContainer,
-    headerTitle,
-    imageStyle
-  } = styles;
+const finishedImage = require('./images/finished.png');
 
-  return (
-    <Card>
-      <CardSection>
-        <View style={thumbnailContainer}>
-          <Image
-            style={thumbnail}
-            source={{ uri: thumbnail_image }}
-          />
-        </View>
-        <View style={header}>
-          <Text style={headerTitle}>{title}</Text>
-          <Text>{artist}</Text>
-        </View>
-      </CardSection>
+class WorkoutDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { finished: false, BGIndex: 0 };
+  }
 
-      <CardSection>
-        <Image
-          style={imageStyle}
-          source={{ uri: image }}
-        />
-      </CardSection>
+  toggleFinished() {
+    this.setState({
+      finished: !this.state.finished,
+      BGIndex: this.state.finished ? 0 : 100
+    });
+  }
 
-      <CardSection>
-        <Button onPress={() => Linking.openURL(url)} >
-          Buy Now
-        </Button>
-      </CardSection>
-    </Card>
-  );
-};
+  render() {
+    const { number, action, image } = this.props.workout;
+    const {
+      sectionStyle,
+      headerStyle,
+      imageStyle,
+      imageContainerStyle,
+      headerTitleStyle,
+      numberContainerStyle,
+      numberTextStyle,
+      finishedStyle
+    } = styles;
+
+    return (
+      <TouchableOpacity
+        onPress={() => this.toggleFinished()}
+      >
+
+        <ImageBackground
+          style={{
+            flex: 1
+          }}
+          imageStyle={{
+            resizeMode: 'contain',
+            zIndex: this.state.BGIndex
+          }}
+          source={finishedImage}
+        >
+        <CardSection style={[sectionStyle, this.state.finished && finishedStyle]}>
+          <View style={numberContainerStyle}>
+            <Text style={numberTextStyle}>{number}</Text>
+          </View>
+
+          <View style={imageContainerStyle}>
+            <Image style={imageStyle} source={{ uri: image }} />
+            <Text style={headerTitleStyle}>{action}</Text>
+          </View>
+
+          <View style={headerStyle}>
+            <Text style={headerTitleStyle}>100 times</Text>
+          </View>
+        </CardSection>
+        </ImageBackground>
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = {
-  header: {
+  sectionStyle: {
+    justifyContent: 'space-around',
+    backgroundColor: '#fff'
+  },
+  headerStyle: {
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
-  headerTitle: {
-    fontSize: 18
+  headerTitleStyle: {
+    fontSize: 18,
   },
-  thumbnail: {
-    height: 50,
-    width: 50
-  },
-  thumbnailContainer: {
+  numberContainerStyle: {
+    width: 40,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10
+    paddingLeft: 10,
+  },
+  numberTextStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   imageStyle: {
-    height: 300,
-    flex: 1,
-    width: null
+    height: 120,
+    width: 180,
   },
+  imageContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  finishedStyle: {
+    opacity: 0.2
+  }
 };
 
 export default WorkoutDetail;

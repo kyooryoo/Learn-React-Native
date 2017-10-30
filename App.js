@@ -3,15 +3,15 @@ import { View, Linking } from 'react-native';
 import Header from './src/components/Header';
 import WorkoutList from './src/components/WorkoutList';
 
-const today = new Date();
-const date = today.toDateString();
+//const today = new Date();
+//const date = today.toDateString();
 const url = 'https://www.darebee.com/challenges/100-challenge.html';
 
 const App = () => (
   <View style={{ flex: 1 }}>
     <Header
-      headerText={'Albums'}
-      subHeaderText={`${date}`}
+      headerText={'100 x 30 Challenge'}
+      //subHeaderText={`${date}`}
       onPress={() => Linking.openURL(url)}
     />
     <WorkoutList />
