@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import CardSection from './CardSection';
 
-const finishedImage = require('./images/finished.png');
-
 class WorkoutDetail extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +41,7 @@ class WorkoutDetail extends Component {
             resizeMode: 'contain',
             zIndex: this.state.BGIndex
           }}
-          source={finishedImage}
+          source={{ uri: 'https://www.shareicon.net/data/2016/08/20/817721_check_512x512.png' }}
         >
         <CardSection style={[sectionStyle, this.state.finished && finishedStyle]}>
           <View style={numberContainerStyle}>
